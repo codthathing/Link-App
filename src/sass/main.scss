@@ -1,0 +1,15 @@
+// Re-defined variables
+
+// Import the variable and function file
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+// Custom variable
+$custom-theme-colors: (
+  "darkgrey": #333333
+);
+
+$theme-colors: map-merge($custom-theme-colors, $theme-colors);
+
+// Import boostrap
+@import "../../node_modules/bootstrap/scss/bootstrap.scss"; 
