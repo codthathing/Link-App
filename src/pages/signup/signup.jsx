@@ -11,7 +11,7 @@ const SignUp = () => {
   return (
     <>
       <div id="login-div" className="main-divs">
-        <Navbar className="bg-body-white px-3 py-4">
+        <Navbar className="bg-body-white p-3">
           <Container>
             <Navbar.Brand href="#home" className="d-flex gap-3 align-items-center">
               <img alt="" src={logo} width="30" height="30" />
@@ -19,35 +19,35 @@ const SignUp = () => {
             </Navbar.Brand>
           </Container>
         </Navbar>
-        <Container className="mt-5 px-4">
-          <h2 className="fw-bold">Create account</h2>
+        <Container className="mt-2 px-4">
+          <h3>Create account</h3>
           <p className="lead">Let’s get you started sharing your links!</p>
-          <Form className="mt-5">
+          <Form className="mt-3">
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>Email address</Form.Label>
-              <div className="d-flex gap-1 p-3 align-items-center border rounded rounded-3">
+              <Form.Label className="mb-1">Email address</Form.Label>
+              <div className="d-flex gap-1 p-2 align-items-center border rounded rounded-3">
                 <i className="bi bi-envelope-fill"></i>
                 <Form.Control type="email" className="border-0 py-0 fw-lighter no-input-input" placeholder="e.g. alex@email.com" />
               </div>
             </Form.Group>
-            <Form.Group className="mt-4" controlId="exampleForm.ControlInput1">
-              <Form.Label>Create password</Form.Label>
-              <div className="d-flex gap-1 p-3 align-items-center border rounded rounded-3">
-                <i class="bi bi-lock-fill"></i>
+            <Form.Group className="mt-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="mb-1">Create password</Form.Label>
+              <div className="d-flex gap-1 p-2 align-items-center border rounded rounded-3">
+                <i className="bi bi-lock-fill"></i>
                 <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input" placeholder="At least .8 characters" />
               </div>
             </Form.Group>
-            <Form.Group className="mt-4" controlId="exampleForm.ControlInput1">
-              <Form.Label>Confirm password</Form.Label>
-              <div className="d-flex gap-1 p-3 align-items-center border rounded rounded-3">
-                <i class="bi bi-lock-fill"></i>
+            <Form.Group className="mt-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="mb-1">Confirm password</Form.Label>
+              <div className="d-flex gap-1 p-2 align-items-center border rounded rounded-3">
+                <i className="bi bi-lock-fill"></i>
                 <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input" placeholder="At least .8 characters" />
               </div>
             </Form.Group>
           </Form>
-          <p className="mt-4 mb-0">Password must contain at least 8 characters</p>
-          <Button variant="purple" className="w-100 py-3 mt-4" size="lg">Create new account</Button>
-          <p className="text-center mt-4 mb-1">Already have an account?</p>
+          <p className="mt-3 mb-0">Password must contain at least 8 characters</p>
+          <Button variant="purple" className="w-100 py-2 mt-3" size="md">Create new account</Button>
+          <p className="text-center mt-3 mb-1">Already have an account?</p>
           <Link to="/" className="text-purple text-decoration-none">
             <p className="text-center">Login</p>
           </Link>
