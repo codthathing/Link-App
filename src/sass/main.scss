@@ -7,7 +7,9 @@
 // Custom variable
 $custom-theme-colors: (
   "darkgrey": #333333,
-  "purple": #633CFF
+  "purple": #633CFF,
+  "lightgrey": #FAFAFA,
+  "textgrey": #737373
 );
 
 $theme-colors: map-merge($custom-theme-colors, $theme-colors);

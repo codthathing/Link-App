@@ -9,51 +9,53 @@ import logo from "../logoicon/Vector.jpg"
 
 const SignUp = () => {
   return (
-    <>
-      <div id="login-div" className="main-divs">
-        <Navbar className="bg-body-white p-3">
+    <div className="bg-lightgrey d-flex justify-content-center align-items-md-center vh-100">
+      <div className="bg-white col-12 col-md-7 col-lg-4">
+        <Navbar className="p-3 py-md-0 my-md-3">
           <Container>
-            <Navbar.Brand href="#home" className="d-flex gap-3 align-items-center">
-              <img alt="" src={logo} width="30" height="30" />
-              <p className="text-darkgrey fw-bold mb-0">devlinks</p>
+            <Navbar.Brand className="d-flex gap-3 w-100 align-items-center justify-content-md-center">
+              <img alt="Link app logo" src={logo} />
+              <p className="text-darkgrey fw-bold mb-0 fs-3">devlinks</p>
             </Navbar.Brand>
           </Container>
         </Navbar>
-        <Container className="mt-2 px-4">
-          <h3>Create account</h3>
-          <p className="lead">Let’s get you started sharing your links!</p>
+        <div className="mt-2 px-4 px-md-4 py-md-3">
+          <h3 className="fs-4 m-0">Create account</h3>
+          <p className="lead fs-5 text-textgrey m-0">Let's get you started sharing your links!</p>
           <Form className="mt-3">
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label className="mb-1">Email address</Form.Label>
-              <div className="d-flex gap-1 p-2 align-items-center border rounded rounded-3">
+              <Form.Label className="mb-1 text-darkgrey">Email address</Form.Label>
+              <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
                 <i className="bi bi-envelope-fill"></i>
-                <Form.Control type="email" className="border-0 py-0 fw-lighter no-input-input" placeholder="e.g. alex@email.com" />
+                <Form.Control type="email" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="e.g. alex@email.com" />
               </div>
             </Form.Group>
             <Form.Group className="mt-3" controlId="exampleForm.ControlInput1">
-              <Form.Label className="mb-1">Create password</Form.Label>
-              <div className="d-flex gap-1 p-2 align-items-center border rounded rounded-3">
+              <Form.Label className="mb-1 text-darkgrey">Create password</Form.Label>
+              <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
                 <i className="bi bi-lock-fill"></i>
-                <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input" placeholder="At least .8 characters" />
+                <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="At least .8 characters" />
               </div>
             </Form.Group>
             <Form.Group className="mt-3" controlId="exampleForm.ControlInput1">
-              <Form.Label className="mb-1">Confirm password</Form.Label>
-              <div className="d-flex gap-1 p-2 align-items-center border rounded rounded-3">
+              <Form.Label className="mb-1 text-darkgrey">Confirm password</Form.Label>
+              <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
                 <i className="bi bi-lock-fill"></i>
-                <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input" placeholder="At least .8 characters" />
+                <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="At least .8 characters" />
               </div>
             </Form.Group>
           </Form>
-          <p className="mt-3 mb-0">Password must contain at least 8 characters</p>
+          <p className="mt-3 mb-0">Password must contain at-2  least 8 characters</p>
           <Button variant="purple" className="w-100 py-2 mt-3" size="md">Create new account</Button>
-          <p className="text-center mt-3 mb-1">Already have an account?</p>
-          <Link to="/" className="text-purple text-decoration-none">
-            <p className="text-center">Login</p>
-          </Link>
-        </Container>
+          <div className="mt-3 d-md-flex gap-md-1 justify-content-md-center">
+            <p className="text-center mb-1 text-textgrey">Already have an account?</p>
+            <Link to="/" className="text-purple text-decoration-none">
+              <p className="text-center">Login</p>
+            </Link>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
