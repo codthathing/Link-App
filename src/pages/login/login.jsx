@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Form } from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
@@ -28,7 +27,7 @@ const Login = () => {
                 <Form.Control type="email" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="e.g. alex@email.com" />
               </div>
             </Form.Group>
-            <Form.Group className="mt-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mt-3" controlId="exampleForm.ControlInput2">
               <Form.Label className="mb-1 text-darkgrey">Password</Form.Label>
               <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
                 <i className="bi bi-lock-fill"></i>
@@ -36,7 +35,7 @@ const Login = () => {
               </div>
             </Form.Group>
           </Form>
-          <Button variant="purple" className="w-100 py-2 mt-3" size="md">Login</Button>
+          <Link to="/preview"><Button variant="purple" className="w-100 py-2 mt-3" size="md">Login</Button></Link>
           <div className="mt-3 d-md-flex gap-md-1 justify-content-md-center">
             <p className="text-center mb-1 text-textgrey">Don't you have an account?</p>
             <Link to="/signup" className="text-purple text-decoration-none">

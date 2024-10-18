@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Container from 'react-bootstrap/Container';
@@ -30,14 +29,14 @@ const SignUp = () => {
                 <Form.Control type="email" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="e.g. alex@email.com" />
               </div>
             </Form.Group>
-            <Form.Group className="mt-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mt-3" controlId="exampleForm.ControlInput2">
               <Form.Label className="mb-1 text-darkgrey">Create password</Form.Label>
               <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
                 <i className="bi bi-lock-fill"></i>
                 <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="At least .8 characters" />
               </div>
             </Form.Group>
-            <Form.Group className="mt-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mt-3" controlId="exampleForm.ControlInput3">
               <Form.Label className="mb-1 text-darkgrey">Confirm password</Form.Label>
               <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
                 <i className="bi bi-lock-fill"></i>
