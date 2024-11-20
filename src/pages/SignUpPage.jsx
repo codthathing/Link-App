@@ -1,19 +1,16 @@
 import { Link } from "react-router-dom";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Form from "react-bootstrap/Form";
-import Button from 'react-bootstrap/Button';
-import logo from "../logoicon/Vector.jpg"
+import { Container, Navbar, Form, Button } from "react-bootstrap";
+import app_logo from "../assets/images/app-logo.jpg";
 
-const SignUp = () => {
+const SignUpPage = () => {
   return (
     <div className="bg-lightgrey d-flex justify-content-center align-items-md-center vh-100">
       <div className="bg-white col-12 col-md-7 col-lg-4">
         <Navbar className="p-3 py-md-0 my-md-3">
           <Container>
             <Navbar.Brand className="d-flex gap-3 w-100 align-items-center justify-content-md-center">
-              <img alt="Link app logo" src={logo} />
+              <img alt="Link app logo" src={app_logo} />
               <p className="text-darkgrey fw-bold mb-0 fs-3">devlinks</p>
             </Navbar.Brand>
           </Container>
@@ -58,4 +55,4 @@ const SignUp = () => {
   );
 }
 
-export default SignUp;
+export default SignUpPage;
