@@ -11,13 +11,11 @@ const PreviewPage = () => {
           <Navbar.Text className="text-darkgrey fw-bold mb-0 fs-3">devlinks</Navbar.Text>
         </Navbar.Brand>
         <Navbar.Brand className="d-flex gap-4 align-items-center">
-          <Navbar.Brand className="d-flex gap-2 border border-2 py-2 px-4 fs-2">
-            <img src={link_bold} alt="Link icon"/>
+          <Navbar.Brand className="d-flex gap-2 bg-purple-hover py-2 px-4 fs-2">
+            <img src={link_bold} alt="Link icon" />
             <Navbar.Text className="fs-5">Links</Navbar.Text>
           </Navbar.Brand>
-          <Navbar.Brand>
-
-          </Navbar.Brand>
+          <Navbar.Brand></Navbar.Brand>
         </Navbar.Brand>
       </Container>
     </Navbar>

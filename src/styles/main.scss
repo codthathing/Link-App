@@ -9,7 +9,8 @@ $custom-theme-colors: (
   "darkgrey": #333333,
   "purple": #633CFF,
   "lightgrey": #FAFAFA,
-  "textgrey": #737373
+  "textgrey": #737373,
+  "purple-hover": #BEADFF
 );
 
 $theme-colors: map-merge($custom-theme-colors, $theme-colors);
