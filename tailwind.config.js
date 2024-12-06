@@ -19,6 +19,9 @@ export default {
       spacing: {
         "[0.15px]": "0.15px",
       },
+      boxShadow: {
+        "inset-white": "0 0 0px 1000px white inset",
+      },
     },
   },
   plugins: [],
