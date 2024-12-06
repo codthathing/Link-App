@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.sign-in-div {
+  @apply  md:flex md:items-center md:justify-center;
+}

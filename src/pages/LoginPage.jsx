@@ -1,49 +1,37 @@
-import { Link } from "react-router-dom";
-import { Navbar, Form, Container, Button } from "react-bootstrap";
-import app_logo from "../assets/images/app-logo.jpg"
+import { useState } from "react";
+import PageDiv from "../components/ui/PageDiv";
+import LogoText from "../components/common/LogoText";
+import TopicParagraph from "../components/common/TopicParagraph";
+import SignInSection from "../components/(sign-in)/SignInSection";
+import SignInMain from "../components/(sign-in)/SignInMain";
+import SignInInput from "../components/(sign-in)/SignInInput";
+import PageButton from "../components/common/PageButton";
+import SignInOption from "../components/(sign-in)/SignInOption";
 
 const LoginPage = () => {
+  const [loginInput, setLoginInput] = useState({email:"", password: ""});
+  const handleLoginInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setLoginInput({...loginInput, [name]: value});
+  };
+
   return (
-    <div className="bg-lightgrey d-flex justify-content-center align-items-md-center vh-100">
-      <div className="bg-white col-12 col-md-7 col-lg-4">
-        <Navbar className="p-3 py-md-0 my-md-3">
-          <Container>
-            <Navbar.Brand className="d-flex gap-3 w-100 align-items-center justify-content-md-center">
-              <img alt="Link app logo" src={app_logo} />
-              <p className="text-darkgrey fw-bold mb-0 fs-3">devlinks</p>
-            </Navbar.Brand>
-          </Container>
-        </Navbar>
-        <div className="mt-2 px-4 px-md-4 py-md-3">
-          <h3 className="fs-4 m-0">Login</h3>
-          <p className="lead fs-5 text-textgrey m-0">Add your details below to get back into the app</p>
-          <Form className="mt-3">
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label className="mb-1 text-darkgrey">Email address</Form.Label>
-              <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
-                <i className="bi bi-envelope-fill"></i>
-                <Form.Control type="email" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="e.g. alex@email.com" />
-              </div>
-            </Form.Group>
-            <Form.Group className="mt-3" controlId="exampleForm.ControlInput2">
-              <Form.Label className="mb-1 text-darkgrey">Password</Form.Label>
-              <div className="d-flex gap-1 p-2 py-md-2 px-md-3 align-items-center border rounded rounded-3">
-                <i className="bi bi-lock-fill"></i>
-                <Form.Control type="password" className="border-0 py-0 fw-lighter no-input-input text-darkgrey" placeholder="Enter your password" />
-              </div>
-            </Form.Group>
-          </Form>
-          <Link to="/preview"><Button variant="purple" className="w-100 py-2 mt-3" size="md">Login</Button></Link>
-          <div className="mt-3 d-md-flex gap-md-1 justify-content-md-center">
-            <p className="text-center mb-1 text-textgrey">Don't you have an account?</p>
-            <Link to="/signup" className="text-purple text-decoration-none">
-              <p className="text-center">Create account</p>
-            </Link>
-          </div>
-        </div>
+    <PageDiv className={"sign-in-div"}>
+      <div className="md:w-3/4 lg:w-2/5 md:my-5">
+        <LogoText />
+        <SignInSection>
+          <TopicParagraph topic={"Login"} text={"Add your details below to get back into the app"} />
+          <SignInMain>
+            <SignInInput label={"Email address"} id={"login-email-input"} type={"email"} name={"email"} value={loginInput.email} onChange={handleLoginInput} placeholder={"e.g.alex@gmail.com"} errorMessage={"Can't be empty"} />
+            <SignInInput label={"Password"} id={"login-password-input"} type={"password"} name={"password"} value={loginInput.password} onChange={handleLoginInput} placeholder={"Enter your password"} errorMessage={"Please check again"} />
+          </SignInMain>
+          <PageButton />
+          <SignInOption mainText={"Don't have an account?"} linkText={"Create account"} linkTo={"/sign-up"} />
+        </SignInSection>
       </div>
-    </div>
+    </PageDiv>
   );
-}
+};
 
 export default LoginPage;
