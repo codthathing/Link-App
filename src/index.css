@@ -654,10 +654,6 @@ video {
   background-color: rgb(250 250 250 / var(--tw-bg-opacity, 1));
 }
 
-.bg-transparent {
-  background-color: transparent;
-}
-
 .p-3 {
   padding: 0.75rem;
 }
@@ -733,10 +729,15 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.shadow-inset-white {
-  --tw-shadow: 0 0 0px 1000px transparent inset;
+.shadow-inset {
+  --tw-shadow: 0 0 0px 1000px inset;
   --tw-shadow-colored: inset 0 0 0px 1000px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-grey-light {
+  --tw-shadow-color: #FAFAFA;
+  --tw-shadow: var(--tw-shadow-colored);
 }
 
 .outline-none {
@@ -859,6 +860,11 @@ video {
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .md\:shadow-white {
+    --tw-shadow-color: #fff;
+    --tw-shadow: var(--tw-shadow-colored);
   }
 }
 

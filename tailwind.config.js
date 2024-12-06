@@ -20,7 +20,7 @@ export default {
         "[0.15px]": "0.15px",
       },
       boxShadow: {
-        "inset-white": "0 0 0px 1000px transparent inset",
+        "inset": "0 0 0px 1000px inset",
       },
     },
   },
