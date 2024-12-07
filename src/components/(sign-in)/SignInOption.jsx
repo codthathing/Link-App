@@ -6,7 +6,7 @@ const SignInOption = ({mainText, linkText, linkTo}) => {
   return (
     <div className="flex flex-col md:flex-row md:justify-center md:gap-x-1 gap-y-[0.15px] text-xs md:text-base items-center">
       <p className="text-grey-normal">{mainText}</p>
-      <span className="text-customPurple cursor-pointer" onClick={() => navigate(linkTo)}>{linkText}</span>
+      <span className="text-purple-custom cursor-pointer" onClick={() => navigate(linkTo)}>{linkText}</span>
     </div>
   );
 };
