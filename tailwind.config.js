@@ -11,7 +11,11 @@ export default {
           semilight: "#D9D9D9",
         },
         customRed: "#FF3939", 
-        customPurple: "#633CFF",
+        purple: {
+          "custom":"#633CFF",
+          "hover": "#BEADFF",
+          "light": "#EFEBFF",
+        },
       },
       fontSize: {
         "[8px]": "8px",
@@ -21,6 +25,16 @@ export default {
       },
       boxShadow: {
         "inset": "0 0 0px 1000px inset",
+        "all-sides": "0.5px 0.5px 17.5px, -0.5px -0.5px 17.5px",
+      },
+      borderColor: {
+        customRed: "#FF3939",
+        grey: {
+          semilight: "#D9D9D9",
+        }, 
+        purple: {
+          "custom":"#633CFF",
+        },
       },
     },
   },
