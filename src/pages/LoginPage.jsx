@@ -36,7 +36,7 @@ const LoginPage = () => {
             <SignInInput label={"Email address"} id={"login-email-input"} type={"email"} name={"email"} value={loginInput.email} onChange={handleLoginInput} placeholder={"e.g.alex@gmail.com"} errorMessage={feedbackMessages.email} />
             <SignInInput label={"Password"} id={"login-password-input"} type={"password"} name={"password"} value={loginInput.password} onChange={handleLoginInput} placeholder={"Enter your password"} errorMessage={feedbackMessages.password} />
           </SignInMain>
-          <PageButton buttonFunction={submitLoginInput} />
+          <PageButton buttonFunction={submitLoginInput} buttonText={"Login"} style={"bg-purple-custom text-white w-full"} />
           <SignInOption mainText={"Don't have an account?"} linkText={"Create account"} linkTo={"/sign-up"} />
         </SignInSection>
       </div>

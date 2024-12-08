@@ -1,31 +1,36 @@
 import { useState } from "react";
+import LogoText from "../components/common/LogoText";
 import page_logo from "../assets/page-logo.png";
-import link_icon from "../assets/link-icon.png";
+import link_purple_icon from "../assets/link-purple-icon.png";
+import link_black_icon from "../assets/link-black-icon.png";
+import user_black_icon from "../assets/user-black-icon.png";
+import user_purple_icon from "../assets/user-purple-icon.png";
 import eye_icon from "../assets/eye-icon.png";
-import user_icon from "../assets/user-icon.png";
 import PageDiv from "../components/ui/PageDiv";
 import UserLayout from "../components/(user)/UserLayout";
 import UserIcon from "../components/(user)/UserIcon";
+import UserSection from "../components/(user)/UserSection";
 
 const UserPage = () => {
   const [presentPage, setPresentPage] = useState("LINK");
 
   return (
-    <PageDiv>
-      <header className="p-4 bg-white flex justify-between items-center">
+    <PageDiv className={"grid grid-rows-[max_auto]"}>
+      <header className="p-4 md:p-6 lg:p-4 md:mx-7 md:mt-7 lg:mx-4 lg:mt-4 bg-white flex justify-between items-center">
+        <LogoText style />
         <img src={page_logo} className="w-7 md:w-12 lg:w-10" alt="PAGE LOGO" />
-        <div className="flex gap-x-2 items-center">
-          <UserIcon src={link_icon} alt={"LINK ICON"} page={presentPage} type={"LINK"} buttonFunction={() => setPresentPage("LINK")} />
-          <UserIcon src={user_icon} alt={"PROFILE ICON"} page={presentPage} type={"PROFILE"} buttonFunction={() => setPresentPage("PROFILE")} />
+        <div className="flex gap-x-2 lg:gap-x-5 items-center">
+          <UserIcon srcOne={link_purple_icon} srcTwo={link_black_icon} alt={"LINK ICON"} page={presentPage} type={"LINK"} buttonFunction={() => setPresentPage("LINK")} text={"Links"} />
+          <UserIcon srcOne={user_purple_icon} srcTwo={user_black_icon} alt={"PROFILE ICON"} page={presentPage} type={"PROFILE"} buttonFunction={() => setPresentPage("PROFILE")} text={"Profile Details"} />
         </div>
-        <UserIcon src={eye_icon} alt={"EYE ICON"} type={"VIEW"} />
+        <UserIcon srcOne={eye_icon} alt={"EYE ICON"} type={"VIEW"} text={"Preview"} />
       </header>
-      {/* <div className="grid grid-cols-3 gap-5 p-5">
-        <section className="hidden lg:block bg-red-500 h-full">
-          heelo worlde
-        </section>
-        <UserLayout page={presentPage} className={"col-span-2"} />
-      </div> */}
+      <div className="lg:grid lg:grid-cols-3 lg:gap-x-5 p-4 md:p-7 lg:p-4">
+        <UserSection className={"hidden lg:block"}>
+          
+        </UserSection>
+        <UserLayout page={presentPage} className={"lg:col-span-2 h-full"} />
+      </div>
     </PageDiv>
   );
 };

@@ -31,10 +31,14 @@ export default {
         customRed: "#FF3939",
         grey: {
           semilight: "#D9D9D9",
+          light: "#FAFAFA",
         }, 
         purple: {
           "custom":"#633CFF",
         },
+      },
+      gridTemplateRows: {
+        "[max_auto]": "max-content auto",
       },
     },
   },
