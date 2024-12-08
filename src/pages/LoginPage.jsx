@@ -29,7 +29,7 @@ const LoginPage = () => {
   return (
     <PageDiv className={"sign-in-div"}>
       <div className="md:w-3/4 lg:w-2/5 md:my-5">
-        <LogoText />
+        <LogoText className={"p-6"} />
         <SignInSection>
           <TopicParagraph topic={"Login"} text={"Add your details below to get back into the app"} />
           <SignInMain>

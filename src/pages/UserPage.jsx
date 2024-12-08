@@ -16,9 +16,8 @@ const UserPage = () => {
 
   return (
     <PageDiv className={"grid grid-rows-[max_auto]"}>
-      <header className="p-4 md:p-6 lg:p-4 md:mx-7 md:mt-7 lg:mx-4 lg:mt-4 bg-white flex justify-between items-center">
-        <LogoText style />
-        <img src={page_logo} className="w-7 md:w-12 lg:w-10" alt="PAGE LOGO" />
+      <header className="p-4 md:p-6 lg:p-4 md:mx-7 md:mt-7 lg:mx-4 lg:mt-4 bg-white flex justify-between items-center md:rounded-md">
+        <LogoText style={"hidden md:block"} />
         <div className="flex gap-x-2 lg:gap-x-5 items-center">
           <UserIcon srcOne={link_purple_icon} srcTwo={link_black_icon} alt={"LINK ICON"} page={presentPage} type={"LINK"} buttonFunction={() => setPresentPage("LINK")} text={"Links"} />
           <UserIcon srcOne={user_purple_icon} srcTwo={user_black_icon} alt={"PROFILE ICON"} page={presentPage} type={"PROFILE"} buttonFunction={() => setPresentPage("PROFILE")} text={"Profile Details"} />
@@ -27,7 +26,7 @@ const UserPage = () => {
       </header>
       <div className="lg:grid lg:grid-cols-3 lg:gap-x-5 p-4 md:p-7 lg:p-4">
         <UserSection className={"hidden lg:block"}>
-          
+
         </UserSection>
         <UserLayout page={presentPage} className={"lg:col-span-2 h-full"} />
       </div>

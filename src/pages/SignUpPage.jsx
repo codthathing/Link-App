@@ -30,7 +30,7 @@ const SignUpPage = () => {
   return (
     <PageDiv className={"sign-in-div"}>
       <div className="md:w-3/4 lg:w-2/5">
-        <LogoText />
+        <LogoText className={"p-6"} />
         <SignInSection>
           <TopicParagraph topic={"Create account"} text={"Let's get you started sharing your links"} />
           <SignInMain>

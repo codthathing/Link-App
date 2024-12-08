@@ -13,7 +13,7 @@ const LinkPage = () => {
         <TopicParagraph topic={"Let’s get you started"} text={"Use the “Add new link” button to get started. Once you have more than one link, you can reorder and edit them. We’re here to help you share your profiles with everyone!"} />
       </section>
       <div className="absolute bottom-0 border-t border-grey-light text-end inset-x-0 px-5 pt-5 md:px-7 md:pt-7 lg:px-4 lg:mt-4">
-        <PageButton buttonText={"Save"} style={`bg-purple-hover text-white lg:px-12`} />
+        <PageButton buttonText={"Save"} style={`bg-purple-hover text-white w-full lg:px-12`} />
       </div>
     </UserSection>
   );
