@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PageDiv from "../components/ui/PageDiv";
 import LogoText from "../components/common/LogoText";
 import TopicParagraph from "../components/common/TopicParagraph";
@@ -16,6 +17,8 @@ const SignUpPage = () => {
     setSignUpInput({...signUpInput, [name]: value});
   };
 
+  const navigate = useNavigate();
+
   const [feedbackMessages, setFeedbackMessages] = useState({ email: "", password: "", confirm_password: "" });
   const submitSignUpInput = () => {
     const newFeedback = { email: "", password: "", confirm_password: "" };
@@ -23,6 +26,8 @@ const SignUpPage = () => {
       if (!signUpInput.email) newFeedback.email = "Can't be empty";
       if (!signUpInput.password) newFeedback.password = "Please check again";
       if (!signUpInput.confirm_password) newFeedback.confirm_password = "Please check again";
+    } else {
+      navigate("/user-page");
     };
     setFeedbackMessages(newFeedback);
   };
@@ -39,7 +44,7 @@ const SignUpPage = () => {
             <SignInInput label={"Confirm password"} id={"login-confirm-password-input"} type={"password"} name={"confirm_password"} value={signUpInput.confirm_password} onChange={handleSignUpInput} placeholder={"At least 8 characters"} errorMessage={feedbackMessages.confirm_password} />
           </SignInMain>
           <p className="text-xs md:text-base mb-3 md:mb-8 text-grey-normal">Password must contain at least 8 characters</p>
-          <PageButton buttonFunction={submitSignUpInput} buttonText={"Create account"} style={"bg-purple-custom text-white w-full"} />
+          <PageButton buttonFunction={submitSignUpInput} buttonText={"Create account"} style={"bg-purple-custom text-white"} />
           <SignInOption mainText={"Already have an account?"} linkText={"Login"} linkTo={"/"} />
         </SignInSection>
       </div>

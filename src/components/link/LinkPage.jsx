@@ -1,21 +1,56 @@
 import UserSection from "../(user)/UserSection";
 import TopicParagraph from "../common/TopicParagraph";
+import LinkSection from "./LinkSection";
 import PageButton from "../common/PageButton";
-import phone_hand_icon from "../../assets/phone-hand-icon.png";
+import { createContext, useState } from "react";
+import LinkNew from "./LinkNew";
+import LinkTemplate from "./LinkTemplate";
+import github_black_icon from "../../assets/github-black-icon.png";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
+export const LinkContext = createContext();
 const LinkPage = () => {
+  const [links, setLinks] = useLocalStorage("links", []);
+  const [linkValue, setLinkValue] = useState({ icon: github_black_icon, platform: "GitHub", placeholder: "https://jsksl", link: "" });
+
+  const [showNewLink, setShowNewLink] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const addNewLink = () => {
+    if (showNewLink) {
+      let errorResponse = "";
+      if (linkValue.link) {
+        const newLink = { id: links.length > 0 ? links[links.length - 1].id + 1 : 0, iconValue: linkValue.icon, platformValue: linkValue.platform, linkValue: linkValue.link };
+        setLinks([...links, newLink]);
+        setShowNewLink(false);
+        setLinkValue({ icon: github_black_icon, platform: "GitHub", placeholder: "https://jsksl", link: "" });
+      } else {
+        errorResponse = "Can't be empty";
+      };
+      setErrorMessage(errorResponse);
+    };
+  };
+
+  const removeLink = (id) => {
+    setLinks(prevState => prevState.filter((link) => link.id !== id));
+  };
+
   return (
-    <UserSection className={"relative border"}>
-      <TopicParagraph topic={"Customize your links"} text={"Add/edit/remove links below and then share all your profiles with the world!"} />
-      <PageButton buttonText={"+ Add new link"} style={"bg-transparent text-purple-custom border border-purple-custom mt-4 mb-2 md:mt-12 md:mb-7 lg:mt-6 lg:mb-4 w-full"} hoverColor="hover:bg-purple-light" />
-      <section className="bg-grey-light text-center px-4 py-5 md:py-24 md:px-20 lg:py-16">
-        <img src={phone_hand_icon} alt="PHONE HAND ICON" className="mx-auto mb-5 md:mb-14 w-32 md:w-64 lg:w-44 lg:mb-8" />
-        <TopicParagraph topic={"Let’s get you started"} text={"Use the “Add new link” button to get started. Once you have more than one link, you can reorder and edit them. We’re here to help you share your profiles with everyone!"} />
-      </section>
-      <div className="absolute bottom-0 border-t border-grey-light text-end inset-x-0 px-5 pt-5 md:px-7 md:pt-7 lg:px-4 lg:mt-4">
-        <PageButton buttonText={"Save"} style={`bg-purple-hover text-white w-full lg:px-12`} />
-      </div>
-    </UserSection>
+    <LinkContext.Provider value={{ linkValue, setLinkValue, links, errorMessage, setErrorMessage, setShowNewLink }}>
+      <UserSection className={"relative mb-20 md:mb-32 lg:mb-36"}>
+        <TopicParagraph topic={"Customize your links"} text={"Add/edit/remove links below and then share all your profiles with the world!"} />
+        <PageButton buttonText={"+ Add new link"} buttonFunction={() => setShowNewLink(true)} style={"bg-transparent text-purple-custom border border-purple-custom mt-4 mb-2 md:mt-12 md:mb-7 lg:mt-6 lg:mb-4"} hoverColor="hover:bg-purple-light" />
+        {(links.length || showNewLink) > 0 ?
+          <section className="flex flex-col gap-y-4 md:gap-y-8 lg:gap-y-6">
+            {links.map((link) => <LinkTemplate {...link} removeFunction={() => removeLink(link.id)} />)}
+            {showNewLink && <LinkNew />}
+          </section> : <LinkSection />}
+        <div className="absolute bottom-0 border-t border-grey-light bg-white z-10 text-end inset-x-0 px-5 pt-5 md:px-7 md:pt-7 lg:px-4 lg:mt-4">
+          <PageButton buttonText={"Save"} buttonFunction={addNewLink} style={`${linkValue.link ? "bg-purple-custom" : "bg-purple-hover"} text-white md:w-fit md:px-12`} />
+        </div>
+      </UserSection>
+    </LinkContext.Provider>
   );
 };
 
