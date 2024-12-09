@@ -11,7 +11,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 export const LinkContext = createContext();
 const LinkPage = () => {
   const [links, setLinks] = useLocalStorage("links", []);
-  const [linkValue, setLinkValue] = useState({ icon: github_black_icon, platform: "GitHub", placeholder: "https://jsksl", link: "" });
+  const [linkValue, setLinkValue] = useState({ icon: github_black_icon, platform: "GitHub", placeholder: "https://github/johndoe.com", link: "" });
 
   const [showNewLink, setShowNewLink] = useState(false);
 
@@ -24,7 +24,7 @@ const LinkPage = () => {
         const newLink = { id: links.length > 0 ? links[links.length - 1].id + 1 : 0, iconValue: linkValue.icon, platformValue: linkValue.platform, linkValue: linkValue.link };
         setLinks([...links, newLink]);
         setShowNewLink(false);
-        setLinkValue({ icon: github_black_icon, platform: "GitHub", placeholder: "https://jsksl", link: "" });
+        setLinkValue({ icon: github_black_icon, platform: "GitHub", placeholder: "https://github/johndoe.com", link: "" });
       } else {
         errorResponse = "Can't be empty";
       };

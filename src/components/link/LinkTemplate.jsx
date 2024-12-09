@@ -37,7 +37,7 @@ const LinkTemplate = ({ id, name, iconValue, linkValue, platformValue, handleInp
         </main>
         <main>
           <p className={`mb-[0.15px] md:mb-1 text-xs md:text-xl lg:text-base ${errorMessage ? "text-customRed" : "text-grey-dark"}`}>Link</p>
-          <a href={link ? linkValue : ""} target={link ? "_blank" : ""} onClick={(e) => {!link && e.preventDefault()}} className={`flex items-center py-1 px-3 md:px-5 gap-x-2 md:gap-x-4 border ${errorMessage ? "border-customRed" : "border-grey-semilight"} rounded-md ${link ? "cursor-pointer" : "cursor-default"}`}>
+          <a {...(link && { href: `${(linkValue.startsWith("https://") || linkValue.startsWith("http://")) ? "" : "https://"}${linkValue}`, target: "_blank" })} onClick={(e) => { !link && e.preventDefault() }} className={`flex items-center py-1 px-3 md:px-5 gap-x-2 md:gap-x-4 border ${errorMessage ? "border-customRed" : "border-grey-semilight"} rounded-md ${link ? "cursor-pointer" : "cursor-default"}`}>
             <img src={link_black_icon} className="w-3 md:w-5 lg:w-4" alt="LINK ICON" />
             <input type="text" name={name} placeholder={placeholder} value={linkValue} onChange={handleInput} readOnly={readOnly} className={`text-[8px] md:text-base outline-none shadow-inset shadow-grey-light w-full py-2 md:py-3 ${link ? "cursor-pointer" : ""}`} />
             {errorMessage && <span className="text-customRed text-[8px] md:text-base justify-self-end whitespace-nowrap">{errorMessage}</span>}
