@@ -3,9 +3,9 @@ import ProfilePage from "../profile/ProfilePage";
 
 const UserLayout = ({ page, className }) => {
   return (
-    <div className={className}>
-      {page === "LINK" ? <LinkPage /> : <ProfilePage />}
-    </div>
+    <>
+      {page === "LINK" ? <LinkPage className={className} /> : <ProfilePage />}
+    </>
   );
 };
 

@@ -38,7 +38,7 @@ export default {
         },
       },
       gridTemplateRows: {
-        "[max_auto]": "max-content auto",
+        "[max_minmax]": "max-content minmax(0, 1fr)",
       },
     },
   },

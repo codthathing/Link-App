@@ -5,3 +5,7 @@
 .sign-in-div {
   @apply  md:flex md:items-center md:justify-center;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
