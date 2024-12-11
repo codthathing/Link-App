@@ -3,6 +3,15 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import github_black_icon from "../assets/github-black-icon.png";
 import github_white_icon from "../assets/github-white-icon.png";
 
+const CURRENT_VERSION = '1.0.1';
+
+const APP_VERSION = localStorage.getItem('APP_VERSION');
+if (APP_VERSION !== CURRENT_VERSION) {
+  localStorage.removeItem('profileDetails');
+  localStorage.removeItem('links');
+  localStorage.setItem('APP_VERSION', CURRENT_VERSION);
+};
+
 export const NavigateContext = createContext();
 const NavigateProvider = ({ children }) => {
   const [links, setLinks] = useLocalStorage("links", []);
