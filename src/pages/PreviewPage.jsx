@@ -15,7 +15,7 @@ const PreviewPage = () => {
           <UserIcon buttonFunction={() => navigate("/user-page")} type={"SHARE"} text={"Share Link"} style="block" className={"hover:bg-purple-hover hover:shadow-all-sides hover:shadow-purple-light w-full md:w-fit"} />
         </header>
         <div className="flex items-center justify-center flex-1 z-10">
-          <UserProfile className={"md:bg-white shadow-md rounded-2xl py-20 lg:py-10 px-4 md:px-12 lg:px-8 w-2/4 md:w-2/5 lg:w-1/5"} border={true} />
+          <UserProfile className={"md:bg-white shadow-md rounded-2xl py-14 md:py-20 lg:py-10 px-4 md:px-12 lg:px-8 w-3/4 md:w-2/5 lg:w-1/5"} border={true} />
         </div>
       </section>
     </PageDiv>
