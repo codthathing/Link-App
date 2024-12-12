@@ -6,6 +6,7 @@ import UserProfile from "../components/(user)/UserProfile";
 import PageNotification from "../components/common/PageNotification";
 import { NavigateContext } from "../services/NavigateProvider";
 import PreviewButton from "../components/preview/PreviewButton";
+import copy from "copy-to-clipboard";
 
 export const PreviewContext = createContext();
 const PreviewPage = () => {
@@ -21,15 +22,12 @@ const PreviewPage = () => {
 
   const copyLinkToClipBoard = () => {
     if (linkEmail) {
-      navigator.clipboard.writeText(linkEmail).then(() => {
-        setLinkMessage("The link has been copied to your clipboard!");
-        setTimeout(() => {
-          setLinkEmail("");
-          setLinkMessage("");
-        }, 2000);
-      }).catch((err) => {
-        console.error("Failed to copy text: ", err);
-      });
+      copy(linkEmail);
+      setLinkMessage("The link has been copied to your clipboard!");
+      setTimeout(() => {
+        setLinkEmail("");
+        setLinkMessage("");
+      }, 2000);
     };
   };
 
