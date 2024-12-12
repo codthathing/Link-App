@@ -6,9 +6,11 @@ import image_white_icon from "../../assets/image-white-icon.png";
 import ProfileInput from "./ProfileInput";
 import { useContext, useRef, useState } from "react";
 import { NavigateContext } from "../../services/NavigateProvider";
+import { UserContext } from "../../pages/UserPage";
 
 const ProfilePage = ({ className }) => {
   const { profileDetails, setProfileDetails } = useContext(NavigateContext);
+  const { setSavedMessage } = useContext(UserContext);
 
   const inputRef = useRef();
 
@@ -23,14 +25,27 @@ const ProfilePage = ({ className }) => {
 
   const updateProfileDetails = () => {
     const updatedResponse = { first_name: "", last_name: "" };
+    let notisMessage = "";
     if (profileInput.first_name || profileInput.last_name || profileInput.email) {
       if ((!profileInput.first_name && !profileDetails.first_name) || (!profileInput.last_name && !profileDetails.last_name)) {
         if (!profileInput.first_name && !profileDetails.first_name) updatedResponse.first_name = "Can't be empty";
         if (!profileInput.last_name && !profileDetails.last_name) updatedResponse.last_name = "Can't be empty";
       };
-      setProfileDetails({ ...profileDetails, ...((profileInput.first_name && (profileInput.last_name || profileDetails.last_name)) && { first_name: profileInput.first_name }), ...((profileInput.last_name && (profileInput.first_name || profileDetails.first_name)) && { last_name: profileInput.last_name }), ...(profileInput.email && { email: profileInput.email }) });
-      setProfileInput({ ...profileInput, ...((profileInput.first_name && (profileInput.last_name || profileDetails.last_name)) && { first_name: "" }), ...((profileInput.last_name && (profileInput.first_name || profileDetails.first_name)) && { last_name: "" }), ...(profileInput.email && { email: "" }) });
+      const updateFisrtName = (profileInput.first_name && (profileInput.last_name || profileDetails.last_name));
+      const updateLastName = (profileInput.last_name && (profileInput.first_name || profileDetails.first_name));
+      const updateEmail = profileInput.email && (profileInput.email !== profileDetails.email);
+      if (updateFisrtName || updateLastName || updateEmail) {
+        setProfileDetails({ ...profileDetails, ...(updateFisrtName && { first_name: profileInput.first_name }), ...(updateLastName && { last_name: profileInput.last_name }), ...(updateEmail && { email: profileInput.email }) });
+        setProfileInput({ ...profileInput, ...(updateFisrtName && { first_name: "" }), ...(updateLastName && { last_name: "" }), ...(updateEmail && { email: "" }) });
+        notisMessage = "Your changes have been successfully saved!";
+      };
     };
+    setSavedMessage(notisMessage);
+    setTimeout(() => {
+      if (notisMessage) {
+        setSavedMessage("");
+      };
+    }, 2000);
     setErrorResponse(updatedResponse);
   };
 

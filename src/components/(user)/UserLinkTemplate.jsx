@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext } from "react";
 import arrow_right_icon from "../../assets/arrow-right-icon.png";
+import { NavigateContext } from "../../services/NavigateProvider";
 
-const UserLinkTemplate = ({ linkArray }) => {
+const UserLinkTemplate = ({ linkArray, divFunction }) => {
+  const { copyLink } = useContext(NavigateContext);
   const changeBackground = (platformValue) => {
     const platform = platformValue.toLowerCase();
     switch (platform) {
@@ -24,9 +26,9 @@ const UserLinkTemplate = ({ linkArray }) => {
 
   return (
     <main className="flex flex-col gap-y-2 md:gap-y-5 lg:gap-y-2 mt-4 md:mt-10 lg:mt-2 w-full">
-      {linkArray.map(({ iconValueTwo, platformValue, linkValue, empty }, index) => {
+      {linkArray.map(({ id, iconValueTwo, platformValue, linkValue, empty }, index) => {
         return (
-          <div key={index} className={`${changeBackground(platformValue)} flex justify-between items-center w-full p-2 md:p-4 lg:p-2 rounded-lg`}>
+          <div key={index} {...(divFunction && {onClick: () => copyLink(id)})} className={`${changeBackground(platformValue)} flex justify-between items-center w-full p-2 md:p-4 lg:p-2 rounded-lg`}>
             <div className="flex gap-x-2 md:gap-x-4 items-center">
               <img src={iconValueTwo} className={`w-3 md:w-6 lg:w-4 ${empty ? "invisible" : ""}`} alt={`${platformValue && platformValue.toUpperCase()} ICON`} />
               <span className={`text-[8px] md:text-xl lg:text-base ${empty ? "invisible" : ""} text-white`}>{platformValue}</span>

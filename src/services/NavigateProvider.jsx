@@ -19,9 +19,14 @@ const NavigateProvider = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showNewLink, setShowNewLink] = useState(false);
   const [profileDetails, setProfileDetails] = useLocalStorage("profileDetails", {});
+  const [linkEmail, setLinkEmail] = useState("");
+  const copyLink = (id) => {
+    const { linkValue } = links.find((link) => link.id === id);
+    setLinkEmail(linkValue);
+  };
 
 
-  return <NavigateContext.Provider value={{ links, setLinks, linkValue, setLinkValue, errorMessage, setErrorMessage, showNewLink, setShowNewLink, profileDetails, setProfileDetails }}>{children}</NavigateContext.Provider>
+  return <NavigateContext.Provider value={{ links, setLinks, linkValue, setLinkValue, errorMessage, setErrorMessage, showNewLink, setShowNewLink, profileDetails, setProfileDetails, copyLink, linkEmail, setLinkEmail }}>{children}</NavigateContext.Provider>
 };
 
 export default NavigateProvider;
