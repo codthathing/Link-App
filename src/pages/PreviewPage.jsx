@@ -21,12 +21,15 @@ const PreviewPage = () => {
 
   const copyLinkToClipBoard = () => {
     if (linkEmail) {
-      window.navigator.clipboard.writeText(linkEmail);
-      setLinkMessage("The link has been copied to your clipboard!");
-      setTimeout(() => {
-        setLinkEmail("");
-        setLinkMessage("");
-      }, 2000);
+      navigator.clipboard.writeText(linkEmail).then(() => {
+        setLinkMessage("The link has been copied to your clipboard!");
+        setTimeout(() => {
+          setLinkEmail("");
+          setLinkMessage("");
+        }, 2000);
+      }).catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
     };
   };
 
