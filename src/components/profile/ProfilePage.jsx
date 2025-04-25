@@ -50,30 +50,32 @@ const ProfilePage = ({ className }) => {
   };
 
   return (
-    <UserSection className={`${className}`}>
+    <UserSection className={`${className} flex flex-col overflow-hidden`}>
       <TopicParagraph topic={"Profile Details"} text={"Add your details to create a personal touch to your profile."} />
-      <div className="bg-grey-light mt-3 mb-2 p-2 md:p-6 lg:p-4 md:mt-8 md:mb-6 lg:mt-6 lg:mb-4 md:grid md:grid-cols-3 md:gap-x-6 lg:gap-x-44 md:items-center rounded-lg">
-        <span className="text-xs md:text-xl lg:text-base text-grey-normal">Profile picture</span>
-        <div style={{ ...(profileDetails.profile_picture && { backgroundImage: `url(${profileDetails.profile_picture})` }) }} onClick={() => inputRef.current.click()} className={`${profileDetails.profile_picture ? "" : "bg-purple-light"} bg-cover bg-no-repeat w-2/4 h-32 md:w-full md:h-60 lg:h-40 rounded-2xl my-1 md:m-0 flex flex-col gap-y-2 items-center justify-center cursor-pointer`}>
-          <input type="file" name="profile_picture" className="p-0" accept="image/png, image/jpeg" ref={inputRef} hidden onChange={({ target: { files } }) => {
-            if (files && files[0]) {
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                setProfileDetails({ ...profileDetails, profile_picture: e.target.result });
-              };
-              reader.readAsDataURL(files[0]);
-            }
-          }} />
-          <img src={profileDetails.profile_picture ? image_white_icon : image_purple_icon} className="w-6 md:w-10" alt="IMAGE PURPLE ICON" />
-          <span className={`text-xs md:text-xl lg:text-base ${profileDetails.profile_picture ? "text-white" : "text-purple-custom"}`}>+ Upload Image</span>
+      <main className="flex-1 overflow-y-auto no-scrollbar mb-4 md:mb-24 lg:mb-0">
+        <div className="bg-grey-light mt-3 mb-2 p-2 md:p-6 lg:p-4 md:mt-8 md:mb-6 lg:mt-6 lg:mb-4 md:grid md:grid-cols-3 md:gap-x-6 lg:gap-x-44 md:items-center rounded-lg">
+          <span className="text-xs md:text-xl lg:text-base text-grey-normal">Profile picture</span>
+          <div style={{ ...(profileDetails.profile_picture && { backgroundImage: `url(${profileDetails.profile_picture})` }) }} onClick={() => inputRef.current.click()} className={`${profileDetails.profile_picture ? "" : "bg-purple-light"} bg-cover bg-no-repeat w-2/4 h-32 md:w-full md:h-60 lg:h-40 rounded-2xl my-1 md:m-0 flex flex-col gap-y-2 items-center justify-center cursor-pointer`}>
+            <input type="file" name="profile_picture" className="p-0" accept="image/png, image/jpeg" ref={inputRef} hidden onChange={({ target: { files } }) => {
+              if (files && files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  setProfileDetails({ ...profileDetails, profile_picture: e.target.result });
+                };
+                reader.readAsDataURL(files[0]);
+              }
+            }} />
+            <img src={profileDetails.profile_picture ? image_white_icon : image_purple_icon} className="w-6 md:w-10" alt="IMAGE PURPLE ICON" />
+            <span className={`text-xs md:text-xl lg:text-base ${profileDetails.profile_picture ? "text-white" : "text-purple-custom"}`}>+ Upload Image</span>
+          </div>
+          <span className="text-xs md:text-xl lg:text-base text-grey-normal">Image must be below 1024x1024px. Use PNG or JPG format.</span>
         </div>
-        <span className="text-xs md:text-xl lg:text-base text-grey-normal">Image must be below 1024x1024px. Use PNG or JPG format.</span>
-      </div>
-      <div className="bg-grey-light p-2 md:p-6 lg:p-4 flex flex-col gap-y-1 md:gap-y-4 lg:gap-y-3 rounded-lg">
-        <ProfileInput label={"First name*"} type={"text"} name={"first_name"} placeholder={"e.g. John"} value={profileInput.first_name} onChange={handleProfileInput} errorMessage={errorResponse.first_name} />
-        <ProfileInput label={"Last name*"} type={"text"} name={"last_name"} placeholder={"e.g. Doe"} value={profileInput.last_name} onChange={handleProfileInput} errorMessage={errorResponse.last_name} />
-        <ProfileInput label={"Email"} type={"email"} name={"email"} placeholder={"e.g. email@example.com"} value={profileInput.email} onChange={handleProfileInput} />
-      </div>
+        <div className="bg-grey-light p-2 md:p-6 lg:p-4 flex flex-col gap-y-1 md:gap-y-4 lg:gap-y-3 rounded-lg">
+          <ProfileInput id={"profile-first-name"} label={"First name*"} type={"text"} name={"first_name"} placeholder={"e.g. John"} value={profileInput.first_name} onChange={handleProfileInput} errorMessage={errorResponse.first_name} />
+          <ProfileInput id={"profile-last-name"} label={"Last name*"} type={"text"} name={"last_name"} placeholder={"e.g. Doe"} value={profileInput.last_name} onChange={handleProfileInput} errorMessage={errorResponse.last_name} />
+          <ProfileInput id={"profile-email"} label={"Email"} type={"email"} name={"email"} placeholder={"e.g. email@example.com"} value={profileInput.email} onChange={handleProfileInput} />
+        </div>
+      </main>
       <UserButton buttonFunction={updateProfileDetails} changeColor={profileInput.profile_picture || profileInput.first_name || profileInput.last_name || profileInput.email} className={"absolute"} />
     </UserSection>
   );

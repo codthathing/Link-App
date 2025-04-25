@@ -1,6 +1,6 @@
 const PageDiv = ({children, className}) => {
   return (
-    <div className={`bg-grey-light h-screen ${className}`}>{children}</div>
+    <div className={`h-screen ${className}`}>{children}</div>
   );
 };
 
