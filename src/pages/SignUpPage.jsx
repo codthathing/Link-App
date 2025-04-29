@@ -8,6 +8,7 @@ import SignInMain from "../components/(sign-in)/SignInMain";
 import SignInInput from "../components/(sign-in)/SignInInput";
 import PageButton from "../components/common/PageButton";
 import SignInOption from "../components/(sign-in)/SignInOption";
+import { supabase } from "../database/supabaseClient";
 
 const SignUpPage = () => {
   const [signUpInput, setSignUpInput] = useState({email:"", password: "", confirm_password: ""});
@@ -20,13 +21,17 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   const [feedbackMessages, setFeedbackMessages] = useState({ email: "", password: "", confirm_password: "" });
-  const submitSignUpInput = () => {
+  const submitSignUpInput = async () => {
     const newFeedback = { email: "", password: "", confirm_password: "" };
-    if(!signUpInput.email || !signUpInput.password || signUpInput.confirm_password) {
+    if(!signUpInput.email || !signUpInput.password || !signUpInput.confirm_password) {
       if (!signUpInput.email) newFeedback.email = "Can't be empty";
       if (!signUpInput.password) newFeedback.password = "Please check again";
       if (!signUpInput.confirm_password) newFeedback.confirm_password = "Please check again";
-    } else {
+    } else {      
+      let { data, error } = await supabase.auth.signUp({
+        email: signUpInput.email,
+        password: signUpInput.password
+      })
       navigate("/user-page");
     };
     setFeedbackMessages(newFeedback);

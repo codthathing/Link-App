@@ -7,24 +7,14 @@ import PreviewPage from "./pages/PreviewPage";
 import { supabase } from "./database/supabaseClient";
 
 function App() {
-  // const [userLinks, setUserLinks] = useState(null);
-  // const [orderBy, setOrderBy] = useState("created_at");
+  // const [session, setSession] = useState(null)
 
   // useEffect(() => {
-  //   const fetchUserLinks = async () => {
-  //     const { data, error } = await supabase.from("links").select()/* .order(orderBy, { ascending: false }) */ /* .eq("id", id).single(); // to select individual row as a object instead of array based on the id */; 
-  //     try {
-  //       if (error) {
-  //         throw new Error("Unable to get links");
-  //       };
-  //       setUserLinks(data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     };
-  //   }
+  //   supabase.auth.getSession().then(({ data: { session } }) => setSession(session)); /* Check existing session */
+  //   const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session)); /* Listen for auth changes */
 
-  //   fetchUserLinks();
-  // }, [orderBy]);
+  //   return () => subscription.unsubscribe()
+  // }, [])
 
   return (
     <BrowserRouter>

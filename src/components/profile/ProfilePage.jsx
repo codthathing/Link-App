@@ -7,6 +7,7 @@ import ProfileInput from "./ProfileInput";
 import { useContext, useRef, useState } from "react";
 import { NavigateContext } from "../../services/NavigateProvider";
 import { UserContext } from "../../pages/UserPage";
+import { supabase } from "../../database/supabaseClient";
 
 const ProfilePage = ({ className }) => {
   const { profileDetails, setProfileDetails } = useContext(NavigateContext);
@@ -59,7 +60,8 @@ const ProfilePage = ({ className }) => {
             <input type="file" name="profile_picture" className="p-0" accept="image/png, image/jpeg" ref={inputRef} hidden onChange={({ target: { files } }) => {
               if (files && files[0]) {
                 const reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = async (e) => {
+                  // const { data, error } = await supabase.storage.from("details").upload(`image_${Date.now()}`, e.target.result);
                   setProfileDetails({ ...profileDetails, profile_picture: e.target.result });
                 };
                 reader.readAsDataURL(files[0]);

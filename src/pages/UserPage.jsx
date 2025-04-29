@@ -12,14 +12,32 @@ import UserSection from "../components/(user)/UserSection";
 import { useNavigate } from "react-router-dom";
 import UserProfile from "../components/(user)/UserProfile";
 import PageNotification from "../components/common/PageNotification";
+import { supabase } from "../database/supabaseClient";
 
 export const UserContext = createContext();
 const UserPage = () => {
   const navigate = useNavigate();
-
   const [presentPage, setPresentPage] = useState("LINK");
-
   const [savedMessage, setSavedMessage] = useState("");
+
+  // const [userLinks, setUserLinks] = useState(null);
+  // const [orderBy, setOrderBy] = useState("created_at");
+
+  // useEffect(() => {
+  //   const fetchUserLinks = async () => {
+  //     const { data, error } = await supabase.from("users").select("*", user_links("*"))/* .order(orderBy, { ascending: false }) */ /* .eq("id", id).single(); // to select individual row as a object instead of array based on the id */; 
+  //     try {
+  //       if (error) {
+  //         throw new Error("Unable to get links");
+  //       };
+  //       setUserLinks(data);
+  //     } catch (err) {
+  //       console.error(err);
+  //     };
+  //   }
+
+  //   fetchUserLinks();
+  // }, [orderBy]);
 
   return (
     <UserContext.Provider value={{setSavedMessage}}>
