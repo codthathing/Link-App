@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import github_black_icon from "../assets/github-black-icon.png";
 import github_white_icon from "../assets/github-white-icon.png";
 
-const CURRENT_VERSION = '1.0.1';
+const CURRENT_VERSION = '1.0.2';
 
 const APP_VERSION = localStorage.getItem('APP_VERSION');
 if (APP_VERSION !== CURRENT_VERSION) {

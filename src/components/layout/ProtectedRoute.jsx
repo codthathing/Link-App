@@ -1,11 +1,10 @@
 import { useContext, useState } from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
 import { NavigateContext } from '../../services/NavigateProvider';
 import { supabase } from '../../database/supabaseClient';
 
-const ProtectedRoute = () => {
-  const location = useLocation();
+const ProtectedRoute = ({ loading }) => {
   const { session, setUser } = useContext(NavigateContext);
   const [userLinksUpdate, setUserLinksUpdate] = useState(null);
 
@@ -27,22 +26,23 @@ const ProtectedRoute = () => {
   }, [session, userLinksUpdate]);
 
   useEffect(() => {
-    const userLinks = supabase.channel('custom-all-channel').on('postgres_changes', { event: '*', schema: 'public', table: 'user_links' }, payload => setUserLinksUpdate(payload)).subscribe();
-    const users = supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, payload => setUserLinksUpdate(payload)).subscribe();
+    if(session) {
+      const userLinks = supabase.channel('custom-all-channel').on('postgres_changes', { event: '*', schema: 'public', table: 'user_links' }, payload => setUserLinksUpdate(payload)).subscribe();
+      const users = supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, payload => setUserLinksUpdate(payload)).subscribe();
 
-    return () => {
-      supabase.removeChannel(userLinks);
-      supabase.removeChannel(users);
+      return () => {
+        supabase.removeChannel(userLinks);
+        supabase.removeChannel(users);
+      };
     };
   }, []);
-  
-  // If session is null (not yet loaded), don't redirect yet
-  if (session === null) {
+
+  if (loading) {
     return null; // Or a loading indicator
   };
 
   if (!session) {
-    return <Navigate to={"/"} state={{ from: location }} replace />;
+    return <Navigate to={"/"} replace />;
   };
 
   return <Outlet />;

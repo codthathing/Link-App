@@ -12,6 +12,7 @@ import UserSection from "../components/(user)/UserSection";
 import { useNavigate } from "react-router-dom";
 import UserProfile from "../components/(user)/UserProfile";
 import PageNotification from "../components/common/PageNotification";
+import { supabase } from "../database/supabaseClient";
 
 export const UserContext = createContext();
 const UserPage = () => {
@@ -19,11 +20,21 @@ const UserPage = () => {
   const [presentPage, setPresentPage] = useState("LINK");
   const [savedMessage, setSavedMessage] = useState("");
 
+  const userSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) throw new Error(error);
+    } catch (err) {
+      console.error(err);
+    };
+  };
+
   return (
     <UserContext.Provider value={{setSavedMessage}}>
       <PageDiv className={"flex flex-col gap-y-4 md:gap-y-7 lg:gap-y-4 md:p-7 lg:p-4 relative"}>
         <header className="p-4 md:p-6 lg:p-4 bg-white flex justify-between items-center md:rounded-md">
-          <LogoText style={"hidden md:block"} />
+          <LogoText onClick={() => userSignOut()} style={"hidden md:block"} />
           <div className="flex gap-x-2 lg:gap-x-5 items-center">
             <UserIcon srcOne={link_purple_icon} srcTwo={link_black_icon} alt={"LINK ICON"} page={presentPage} type={"LINK"} buttonFunction={() => setPresentPage("LINK")} text={"Links"} />
             <UserIcon srcOne={user_purple_icon} srcTwo={user_black_icon} alt={"PROFILE ICON"} page={presentPage} type={"PROFILE"} buttonFunction={() => setPresentPage("PROFILE")} text={"Profile Details"} />
