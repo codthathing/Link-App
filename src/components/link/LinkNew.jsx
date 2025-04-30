@@ -14,7 +14,7 @@ import facebook_white_icon from "../../assets/facebook-white-icon.png";
 import twitter_white_icon from "../../assets/twitter-white-icon.png";
 
 const LinkNew = () => {
-  const { linkValue, setLinkValue, links, errorMessage, setErrorMessage, setShowNewLink } = useContext(NavigateContext);
+  const { linkValue, setLinkValue, errorMessage, setErrorMessage, setShowNewLink, user: { links } } = useContext(NavigateContext);
   const handleLinkValue = (e) => {
     const name = e.target.name;
     const value = e.target.value;

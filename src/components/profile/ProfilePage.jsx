@@ -10,7 +10,7 @@ import { UserContext } from "../../pages/UserPage";
 import { supabase } from "../../database/supabaseClient";
 
 const ProfilePage = ({ className }) => {
-  const { profileDetails, setProfileDetails } = useContext(NavigateContext);
+  const { user: { details } } = useContext(NavigateContext);
   const { setSavedMessage } = useContext(UserContext);
 
   const inputRef = useRef();
@@ -24,19 +24,30 @@ const ProfilePage = ({ className }) => {
 
   const [errorResponse, setErrorResponse] = useState({ first_name: "", last_name: "" });
 
-  const updateProfileDetails = () => {
+  const updateUserDatabase = async (data) => {
+    try {
+      const { error } = await supabase.from('users').update(data).eq('email', details.email).select();
+      
+      if (error) throw new Error(error);
+    } catch (err) {
+      console.error(err);
+    };
+  }
+
+  const updateProfileDetails = async () => {
     const updatedResponse = { first_name: "", last_name: "" };
     let notisMessage = "";
     if (profileInput.first_name || profileInput.last_name || profileInput.email) {
-      if ((!profileInput.first_name && !profileDetails.first_name) || (!profileInput.last_name && !profileDetails.last_name)) {
-        if (!profileInput.first_name && !profileDetails.first_name) updatedResponse.first_name = "Can't be empty";
-        if (!profileInput.last_name && !profileDetails.last_name) updatedResponse.last_name = "Can't be empty";
+      if ((!profileInput.first_name && !details.first_name) || (!profileInput.last_name && !details.last_name)) {
+        if (!profileInput.first_name && !details.first_name) updatedResponse.first_name = "Can't be empty";
+        if (!profileInput.last_name && !details.last_name) updatedResponse.last_name = "Can't be empty";
       };
-      const updateFisrtName = (profileInput.first_name && (profileInput.last_name || profileDetails.last_name));
-      const updateLastName = (profileInput.last_name && (profileInput.first_name || profileDetails.first_name));
-      const updateEmail = profileInput.email && (profileInput.email !== profileDetails.email);
+      const updateFisrtName = (profileInput.first_name && (profileInput.last_name || details.last_name));
+      const updateLastName = (profileInput.last_name && (profileInput.first_name || details.first_name));
+      const updateEmail = profileInput.email && (profileInput.email !== details.email);
       if (updateFisrtName || updateLastName || updateEmail) {
-        setProfileDetails({ ...profileDetails, ...(updateFisrtName && { first_name: profileInput.first_name }), ...(updateLastName && { last_name: profileInput.last_name }), ...(updateEmail && { email: profileInput.email }) });
+        const updatedDetails = { ...(updateFisrtName && { first_name: profileInput.first_name }), ...(updateLastName && { last_name: profileInput.last_name }), ...(updateEmail && { email: profileInput.email }) };
+        updateUserDatabase(updatedDetails);
         setProfileInput({ ...profileInput, ...(updateFisrtName && { first_name: "" }), ...(updateLastName && { last_name: "" }), ...(updateEmail && { email: "" }) });
         notisMessage = "Your changes have been successfully saved!";
       };
@@ -56,19 +67,16 @@ const ProfilePage = ({ className }) => {
       <main className="flex-1 overflow-y-auto no-scrollbar mb-4 md:mb-24 lg:mb-0">
         <div className="bg-grey-light mt-3 mb-2 p-2 md:p-6 lg:p-4 md:mt-8 md:mb-6 lg:mt-6 lg:mb-4 md:grid md:grid-cols-3 md:gap-x-6 lg:gap-x-44 md:items-center rounded-lg">
           <span className="text-xs md:text-xl lg:text-base text-grey-normal">Profile picture</span>
-          <div style={{ ...(profileDetails.profile_picture && { backgroundImage: `url(${profileDetails.profile_picture})` }) }} onClick={() => inputRef.current.click()} className={`${profileDetails.profile_picture ? "" : "bg-purple-light"} bg-cover bg-no-repeat w-2/4 h-32 md:w-full md:h-60 lg:h-40 rounded-2xl my-1 md:m-0 flex flex-col gap-y-2 items-center justify-center cursor-pointer`}>
+          <div style={{ ...(details.image_url && { backgroundImage: `url(${details.image_url})` }) }} onClick={() => inputRef.current.click()} className={`${details.image_url ? "" : "bg-purple-light"} bg-cover bg-no-repeat w-2/4 h-32 md:w-full md:h-60 lg:h-40 rounded-2xl my-1 md:m-0 flex flex-col gap-y-2 items-center justify-center cursor-pointer`}>
             <input type="file" name="profile_picture" className="p-0" accept="image/png, image/jpeg" ref={inputRef} hidden onChange={({ target: { files } }) => {
               if (files && files[0]) {
                 const reader = new FileReader();
-                reader.onload = async (e) => {
-                  // const { data, error } = await supabase.storage.from("details").upload(`image_${Date.now()}`, e.target.result);
-                  setProfileDetails({ ...profileDetails, profile_picture: e.target.result });
-                };
+                reader.onload = (e) => updateUserDatabase({ image_url: e.target.result });
                 reader.readAsDataURL(files[0]);
               }
             }} />
-            <img src={profileDetails.profile_picture ? image_white_icon : image_purple_icon} className="w-6 md:w-10" alt="IMAGE PURPLE ICON" />
-            <span className={`text-xs md:text-xl lg:text-base ${profileDetails.profile_picture ? "text-white" : "text-purple-custom"}`}>+ Upload Image</span>
+            <img src={details.image_url ? image_white_icon : image_purple_icon} className="w-6 md:w-10" alt="IMAGE PURPLE ICON" />
+            <span className={`text-xs md:text-xl lg:text-base ${details.image_url ? "text-white" : "text-purple-custom"}`}>+ Upload Image</span>
           </div>
           <span className="text-xs md:text-xl lg:text-base text-grey-normal">Image must be below 1024x1024px. Use PNG or JPG format.</span>
         </div>

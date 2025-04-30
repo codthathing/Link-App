@@ -13,23 +13,20 @@ import { supabase } from "../../database/supabaseClient";
 
 export const LinkContext = createContext();
 const LinkPage = ({ className }) => {
-  const { links, setLinks, linkValue, setLinkValue, showNewLink, setShowNewLink, setErrorMessage } = useContext(NavigateContext);
+  const { linkValue, setLinkValue, showNewLink, setShowNewLink, setErrorMessage, user: { links, details: { id } } } = useContext(NavigateContext);
 
   const addNewLink = async () => {
     if (showNewLink) {
       let errorResponse = "";
       if (linkValue.link) {
-        const newLink = { iconValue: linkValue.icon, iconValueTwo: linkValue.iconTwo, platformValue: linkValue.platform, linkValue: (linkValue.link.startsWith("https://") || linkValue.link.startsWith("http://")) ? linkValue.link : `https://${linkValue.link}` };
-        setLinks([...links, { ...newLink, id: Date.now() }]);
-        // const { data, error } = await supabase.from("links").insert([newLink]) /* .update({ iconValue, ... }).eq("id", id) // to update a row and get the data of the updated row back */ .select();
-        // try {
-        //   if (error) {
-        //     throw new Error("Unable to update links");
-        //   };
-        //   console.log(data);
-        // } catch (err) {
-        //   console.error(err);
-        // };
+        const newLink = { iconValue: linkValue.icon, iconValueTwo: linkValue.iconTwo, platformValue: linkValue.platform, linkValue: (linkValue.link.startsWith("https://") || linkValue.link.startsWith("http://")) ? linkValue.link : `https://${linkValue.link}`, user_id: id };
+        try {
+          const { error } = await supabase.from("user_links").insert([newLink]);
+
+          if (error) throw new Error(error);
+        } catch (err) {
+          console.error(err);
+        };
         setShowNewLink(false);
         setLinkValue({ icon: github_black_icon, iconTwo: github_white_icon, platform: "GitHub", placeholder: "https://github.com/johndoe", link: "" });
       } else {
@@ -53,16 +50,13 @@ const LinkPage = ({ className }) => {
   };
 
   const removeLink = async (id) => {
-    setLinks(prevState => prevState.filter((link) => link.id !== id));
-    // const { data, error } = await supabase.from("links").delete().eq("id", id).select(); /* To delete a particular row and return the deleted object */
-    // try {
-    //   if (error) {
-    //     throw new Error("Unable to delete link");
-    //   };
-    //   console.log(data);
-    // } catch (err) {
-    //   console.error(err);
-    // };
+    try {
+      const { error } = await supabase.from("user_links").delete().eq("id", id);
+
+      if (error) throw new Error(error);
+    } catch (err) {
+      console.error(err);
+    };
   };
 
   return (

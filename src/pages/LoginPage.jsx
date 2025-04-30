@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PageDiv from "../components/ui/PageDiv";
 import LogoText from "../components/common/LogoText";
@@ -8,8 +8,12 @@ import SignInMain from "../components/(sign-in)/SignInMain";
 import SignInInput from "../components/(sign-in)/SignInInput";
 import PageButton from "../components/common/PageButton";
 import SignInOption from "../components/(sign-in)/SignInOption";
+import { supabase } from "../database/supabaseClient";
+import { NavigateContext } from "../services/NavigateProvider";
 
 const LoginPage = () => {
+  const { setUpdateDetails } = useContext(NavigateContext);
+
   const [loginInput, setLoginInput] = useState({ email: "", password: "" });
   const handleLoginInput = (e) => {
     const name = e.target.name;
@@ -20,13 +24,27 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const [feedbackMessages, setFeedbackMessages] = useState({ email: "", password: "" });
-  const submitLoginInput = () => {
+  const submitLoginInput = async () => {
     const newFeedback = { email: "", password: "" };
     if(!loginInput.email || !loginInput.password) {
       if (!loginInput.email) newFeedback.email = "Can't be empty";
       if (!loginInput.password) newFeedback.password = "Please check again";
     } else {
-      navigate("/user-page");
+      try {
+        let { error } = await supabase.auth.signInWithPassword({
+          email: loginInput.email,
+          password: loginInput.password
+        });
+
+        if (error) {
+          throw new Error(error.message);
+        };
+
+        navigate("/user-page");
+      } catch (err) {
+        setUpdateDetails({ text: err.message, error: true });
+        console.error(err);
+      };
     };
     setFeedbackMessages(newFeedback);
   };

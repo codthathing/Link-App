@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 import PageDiv from "../components/ui/PageDiv";
 import LogoText from "../components/common/LogoText";
 import TopicParagraph from "../components/common/TopicParagraph";
@@ -9,16 +8,17 @@ import SignInInput from "../components/(sign-in)/SignInInput";
 import PageButton from "../components/common/PageButton";
 import SignInOption from "../components/(sign-in)/SignInOption";
 import { supabase } from "../database/supabaseClient";
+import { NavigateContext } from "../services/NavigateProvider";
 
 const SignUpPage = () => {
+  const { setUpdateDetails } = useContext(NavigateContext);
+
   const [signUpInput, setSignUpInput] = useState({email:"", password: "", confirm_password: ""});
   const handleSignUpInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setSignUpInput({...signUpInput, [name]: value});
   };
-
-  const navigate = useNavigate();
 
   const [feedbackMessages, setFeedbackMessages] = useState({ email: "", password: "", confirm_password: "" });
   const submitSignUpInput = async () => {
@@ -27,12 +27,29 @@ const SignUpPage = () => {
       if (!signUpInput.email) newFeedback.email = "Can't be empty";
       if (!signUpInput.password) newFeedback.password = "Please check again";
       if (!signUpInput.confirm_password) newFeedback.confirm_password = "Please check again";
-    } else {      
-      let { data, error } = await supabase.auth.signUp({
-        email: signUpInput.email,
-        password: signUpInput.password
-      })
-      navigate("/user-page");
+    } else if (signUpInput.password !== signUpInput.confirm_password) {
+      newFeedback.confirm_password = "Please enter matching password";
+    } else {     
+      try {
+        let { data, error } = await supabase.auth.signUp({
+          email: signUpInput.email,
+          password: signUpInput.password
+        });
+
+        if (error) {
+          throw new Error(error.message);
+        };
+
+        if (data.user?.identities?.length === 0) {
+          throw new Error('This email is already registered, try resetting your password.');
+        }
+
+        setUpdateDetails({ text: `Verification email sent to ${signUpInput.email}`, error: false });
+        setSignUpInput({ email: "", password: "", confirm_password: "" });
+      } catch (err) {
+        setUpdateDetails({ text: err.message, error: true });
+        console.log(err);
+      };
     };
     setFeedbackMessages(newFeedback);
   };
