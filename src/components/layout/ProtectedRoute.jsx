@@ -12,28 +12,28 @@ const ProtectedRoute = ({ loading }) => {
     if (session) {
       const fetchUserLinks = async () => {
         try {
-          const { data, error } = await supabase.from("users").select(`*, user_links(id, iconValue, iconValueTwo, platformValue, linkValue)`).eq("id", session.user.id).single();
-
-          if (error ) throw new Error(error);
-
-          setUser({ links: data["user_links"], details: { id: data.id, email: data.email, first_name: data.first_name, last_name: data.last_name, image_url: data.image_url } });
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            const { data, error } = await supabase.from("users").select(`*, user_links(id, iconValue, iconValueTwo, platformValue, linkValue)`).eq("id", session.user.id).single();
+            if (error ) throw new Error(error);
+            setUser({ links: data["user_links"], details: { id: data.id, email: data.email, first_name: data.first_name, last_name: data.last_name, image_url: data.image_url } });
+          };
         } catch (err) {
           console.error(err);
         };
-      }
+      };
+
       fetchUserLinks();
     };
   }, [session, userLinksUpdate]);
 
   useEffect(() => {
-    if(session) {
-      const userLinks = supabase.channel('custom-all-channel').on('postgres_changes', { event: '*', schema: 'public', table: 'user_links' }, payload => setUserLinksUpdate(payload)).subscribe();
-      const users = supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, payload => setUserLinksUpdate(payload)).subscribe();
+    const userLinks = supabase.channel('custom-all-channel').on('postgres_changes', { event: '*', schema: 'public', table: 'user_links' }, payload => setUserLinksUpdate(payload)).subscribe();
+    const users = supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, payload => setUserLinksUpdate(payload)).subscribe();
 
-      return () => {
-        supabase.removeChannel(userLinks);
-        supabase.removeChannel(users);
-      };
+    return () => {
+      supabase.removeChannel(userLinks);
+      supabase.removeChannel(users);
     };
   }, []);
 
