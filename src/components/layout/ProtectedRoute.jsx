@@ -6,7 +6,6 @@ import { supabase } from '../../database/supabaseClient';
 
 const ProtectedRoute = ({ loading }) => {
   const { session, setUser } = useContext(NavigateContext);
-  const [userLinksUpdate, setUserLinksUpdate] = useState(null);
 
   useEffect(() => {
     if (session) {
@@ -25,14 +24,16 @@ const ProtectedRoute = ({ loading }) => {
 
       fetchUserLinks();
     };
-  }, [session, userLinksUpdate]);
+  }, [session]);
 
   useEffect(() => {
-    const userLinks = supabase.channel('custom-all-channel').on('postgres_changes', { event: '*', schema: 'public', table: 'user_links' }, payload => setUserLinksUpdate(payload)).subscribe();
-    const users = supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, payload => setUserLinksUpdate(payload)).subscribe();
+    const userDeleteLinks = supabase.channel('custom-delete-channel').on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'user_links' }, (payload) => setUser(prevState => ({ ...prevState, links: prevState.links.filter(({ id }) => id !== payload.old.id) }))).subscribe();
+    const userInsertLinks = supabase.channel('custom-insert-channel').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'user_links' }, (payload) => setUser(prevState => ({ ...prevState, links: [...prevState.links, payload.new] }))).subscribe();
+    const users = supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, (payload) => setUser(prevState => ({ ...prevState, details: { ...prevState.details, ...payload.new } }))).subscribe();
 
     return () => {
-      supabase.removeChannel(userLinks);
+      supabase.removeChannel(userDeleteLinks);
+      supabase.removeChannel(userInsertLinks);
       supabase.removeChannel(users);
     };
   }, []);
