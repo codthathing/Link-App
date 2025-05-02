@@ -14,13 +14,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setIsLoading(false);
-    });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session)); /* Listen for auth changes */
-
-    return () => subscription.unsubscribe();
+    (async () => {
+      await supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+        setIsLoading(false);
+      });
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session)); /* Listen for auth changes */
+  
+      return () => subscription.unsubscribe();
+    })();
   }, []);
 
   return (
