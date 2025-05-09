@@ -9,24 +9,15 @@ const ProtectedRoute = ({ loading }) => {
 
   useEffect(() => {
     if (session) {
-      let isMounted = true;
-
       (async () => {
         try {
-          const { data: { user }, error } = await supabase.auth.getUser();
+          const { data, error } = await supabase.from("users").select(`*, user_links(id, iconValue, iconValueTwo, platformValue, linkValue)`).eq("id", session.user.id).single();
           if (error) throw error;
 
-          if (user && isMounted) {
-            const { data, error: queryError } = await supabase.from("users").select(`*, user_links(id, iconValue, iconValueTwo, platformValue, linkValue)`).eq("id", session.user.id).single();
-            if (queryError) console.error(queryError);
-
-            if (isMounted) setUser({ links: data["user_links"], details: { id: data.id, email: data.email, first_name: data.first_name, last_name: data.last_name, image_url: data.image_url } });
-          };
+          setUser({ links: data["user_links"], details: { id: data.id, email: data.email, first_name: data.first_name, last_name: data.last_name, image_url: data.image_url } });
         } catch (err) {
-          if (isMounted) console.error(err);
+          console.error(err);
         };
-
-        return () => isMounted = false;
       })();
     };
   }, [session]);
