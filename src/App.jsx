@@ -19,8 +19,10 @@ function App() {
         setSession(session);
         setIsLoading(false);
       });
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session)); /* Listen for auth changes */
-  
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => setSession(session)); /* Listen for auth changes */
+
       return () => subscription.unsubscribe();
     })();
   }, []);
@@ -41,6 +43,6 @@ function App() {
       </BrowserRouter>
     </>
   );
-};
+}
 
-export default App
+export default App;
