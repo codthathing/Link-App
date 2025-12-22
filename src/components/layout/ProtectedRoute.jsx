@@ -11,10 +11,10 @@ const ProtectedRoute = ({ loading }) => {
     if (session) {
       (async () => {
         try {
-          const { data, error } = await supabase.from("users").select(`*, user_links(id, iconValue, iconValueTwo, platformValue, linkValue)`).eq("id", session.user.id).single();
+          const { data, error } = await supabase.from("users").select(`*, users_links(id, platform_name, platform_link, main_icon, secondary_icon)`).eq("id", session.user.id).single();
           if (error) throw error;
 
-          setUser({ links: data["user_links"], details: { id: data.id, email: data.email, first_name: data.first_name, last_name: data.last_name, image_url: data.image_url } });
+          setUser({ links: data["users_links"], details: { id: data.id, email: data.user_email, firstname: data.user_firstname, lastname: data.user_lastname, profile: data.user_profile } });
         } catch (err) {
           console.error(err);
         };
@@ -24,20 +24,14 @@ const ProtectedRoute = ({ loading }) => {
 
   useEffect(() => {
     if (session) {
-      const userDeleteLinks = supabase.channel('custom-delete-channel').on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'user_links' }, (payload) => setUser(prevState => ({ ...prevState, links: prevState.links.filter(({ id }) => id !== payload.old.id) }))).subscribe();
-      const userInsertLinks = supabase.channel('custom-insert-channel').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'user_links' }, (payload) => setUser(prevState => ({ ...prevState, links: [...prevState.links, payload.new] }))).subscribe();
-      const users = supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, (payload) => setUser(prevState => ({ ...prevState, details: { ...prevState.details, ...payload.new } }))).subscribe();
-
-      return () => {
-        supabase.removeChannel(userDeleteLinks);
-        supabase.removeChannel(userInsertLinks);
-        supabase.removeChannel(users);
-      };
+      supabase.channel('custom-delete-channel').on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'users_links' }, (payload) => setUser(prevState => ({ ...prevState, links: prevState.links.filter(({ id }) => id !== payload.old.id) }))).subscribe();
+      supabase.channel('custom-insert-channel').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'users_links' }, (payload) => setUser(prevState => ({ ...prevState, links: [...prevState.links, payload.new] }))).subscribe();
+      supabase.channel('custom-update-channel').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, (payload) => setUser(prevState => ({ ...prevState, details: { ...prevState.details, ...payload.new } }))).subscribe();
     };
   }, []);
 
   if (loading) {
-    return null; // Or a loading indicator
+    return null;
   };
 
   if (!session) {

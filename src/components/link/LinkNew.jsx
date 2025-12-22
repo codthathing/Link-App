@@ -43,7 +43,7 @@ const LinkNew = () => {
     setLinkValue({ ...linkValue, icon: icon, iconTwo: iconTwo, platform: platform, placeholder });
   };
   
-  return <LinkTemplate errorMessage={errorMessage} inputRef={inputRef} removeFunction={() => setShowNewLink(false)} setErrorMessage={setErrorMessage} id={links.length} name={"link"} iconValue={linkValue.icon} linkValue={linkValue.link} platformValue={linkValue.platform} handleInput={handleLinkValue} placeholder={linkValue.placeholder} link={false} readOnly={false} showIcon={true} showOption={showAvailableLinks} setShowOption={setShowAvailableLinks} availableLinks={availableLinks} changeOption={changePlatform} />;
+  return <LinkTemplate errorMessage={errorMessage} inputRef={inputRef} removeFunction={() => setShowNewLink(false)} setErrorMessage={setErrorMessage} id={links.length} name={"link"} main_icon={linkValue.icon} platform_link={linkValue.link} platform_name={linkValue.platform} handleInput={handleLinkValue} placeholder={linkValue.placeholder} link={false} readOnly={false} showIcon={true} showOption={showAvailableLinks} setShowOption={setShowAvailableLinks} availableLinks={availableLinks} changeOption={changePlatform} />;
 };
 
 export default LinkNew;

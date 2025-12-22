@@ -26,14 +26,14 @@ const UserLinkTemplate = ({ linkArray, divFunction }) => {
 
   return (
     <main className="flex flex-col gap-y-2 md:gap-y-5 lg:gap-y-2 mt-4 md:mt-10 lg:mt-2 w-full">
-      {linkArray.map(({ id, iconValueTwo, platformValue, linkValue, empty }, index) => {
+      {linkArray.map(({ id, secondary_icon, platform_name, platform_link, empty }, index) => {
         return (
-          <div key={index} {...(divFunction && {onClick: () => copyLink(id)})} className={`${changeBackground(platformValue)} flex justify-between items-center w-full p-2 md:p-4 lg:p-2 rounded-lg`}>
+          <div key={index} {...(divFunction && {onClick: () => copyLink(id)})} className={`${changeBackground(platform_name)} flex justify-between items-center w-full p-2 md:p-4 lg:p-2 rounded-lg`}>
             <div className="flex gap-x-2 md:gap-x-4 items-center">
-              <img src={iconValueTwo} className={`w-3 md:w-6 lg:w-4 ${empty ? "invisible" : ""}`} alt={`${platformValue && platformValue.toUpperCase()} ICON`} />
-              <span className={`text-[8px] md:text-xl lg:text-base ${empty ? "invisible" : ""} text-white`}>{platformValue}</span>
+              <img src={secondary_icon} className={`w-3 md:w-6 lg:w-4 ${empty ? "invisible" : ""}`} alt={`${platform_name && platform_name.toUpperCase()} ICON`} />
+              <span className={`text-[8px] md:text-xl lg:text-base ${empty ? "invisible" : ""} text-white`}>{platform_name}</span>
             </div>
-            <a href={linkValue} target="_blank" className={`${empty ? "invisible" : ""} cursor-pointer`}><img src={arrow_right_icon} className="w-2 md:w-4 lg:w-2" alt="ARROW RIGHT ICON" /></a>
+            <a href={platform_link} target="_blank" className={`${empty ? "invisible" : ""} cursor-pointer`}><img src={arrow_right_icon} className="w-2 md:w-4 lg:w-2" alt="ARROW RIGHT ICON" /></a>
           </div>
         );
       })}

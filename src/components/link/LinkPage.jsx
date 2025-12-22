@@ -17,13 +17,15 @@ const LinkPage = ({ className }) => {
 
   const addNewLink = async () => {
     if (showNewLink) {
+      console.log(id);
       let errorResponse = "";
       if (linkValue.link) {
-        const newLink = { iconValue: linkValue.icon, iconValueTwo: linkValue.iconTwo, platformValue: linkValue.platform, linkValue: (linkValue.link.startsWith("https://") || linkValue.link.startsWith("http://")) ? linkValue.link : `https://${linkValue.link}`, user_id: id };
+        const newLink = { platform_name: linkValue.platform, main_icon: linkValue.icon, secondary_icon: linkValue.iconTwo, platform_link: (linkValue.link.startsWith("https://") || linkValue.link.startsWith("http://")) ? linkValue.link : `https://${linkValue.link}`, uid: id };
         try {
-          const { error } = await supabase.from("user_links").insert([newLink]);
+          const { data, error } = await supabase.from("users_links").insert([newLink]).select();
 
-          if (error) throw new Error(error);
+          console.log(data);
+          if (error) throw Error;
         } catch (err) {
           console.error(err);
         };
@@ -51,7 +53,7 @@ const LinkPage = ({ className }) => {
 
   const removeLink = async (id) => {
     try {
-      const { error } = await supabase.from("user_links").delete().eq("id", id);
+      const { error } = await supabase.from("users_links").delete().eq("id", id);
 
       if (error) throw new Error(error);
     } catch (err) {
