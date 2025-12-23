@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.22.0",
     "@supabase/supabase-js": "^2.49.4",
     "copy-to-clipboard": "^3.3.3",
     "react": "^18.3.1",
