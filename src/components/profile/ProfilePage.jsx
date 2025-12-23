@@ -11,6 +11,7 @@ import { supabase } from "../../database/supabaseClient";
 import { FocusOn } from "@cloudinary/url-gen/qualifiers/focusOn";
 import { focusOn } from "@cloudinary/url-gen/qualifiers/gravity";
 import { Cloudinary } from "@cloudinary/url-gen";
+import { fill } from "@cloudinary/url-gen/actions/resize";
 
 const ProfilePage = ({ className }) => {
   const { user: { details } } = useContext(NavigateContext);
@@ -27,10 +28,8 @@ const ProfilePage = ({ className }) => {
 
   const uploadToCloudinary = async (file) => {
     const formData = new FormData();
-    formData.append("files", file);
+    formData.append("file", file);
     formData.append("upload_preset", "link_app_unsigned_preset");
-    formData.append("allowed_formats", "jpg,png");
-    let public_id;
 
     try {
       const response = await fetch("https://api.cloudinary.com/v1_1/doy5yq79f/upload", {
@@ -38,18 +37,26 @@ const ProfilePage = ({ className }) => {
         body: formData,
       });
 
-      if (!response.ok) throw new Error(`Upload Error: ${response.statusText}`);
+      if (!response.ok) throw new Error(response.statusText);
 
       const data = await response.json();
-      public_id = data.public_id;
+      return data.public_id;
     } catch (err) {
       console.error(err);
+
+      return null;
     }
+  };
+
+  const singleFileUpload = async (file) => {
+    const publicId = await uploadToCloudinary(file);
+
+    if (!publicId) return;
 
     const cld = new Cloudinary({ cloud: { cloudName: "doy5yq79f" } });
-    const image = cld.image(public_id).format("auto").quality("auto").resize(fill().gravity(focusOn(FocusOn.face())).width(1024).height(1024));
+    const image = cld.image(publicId).format("auto").quality("auto").resize(fill().gravity(focusOn(FocusOn.face())).width(1024).height(1024));
 
-    updateUserDatabase({ user_profile: image });
+    updateUserDatabase({ user_profile: image.toURL() });
   };
 
   const updateUserDatabase = async (data) => {
@@ -97,7 +104,7 @@ const ProfilePage = ({ className }) => {
         <div className="bg-grey-light mt-3 mb-2 p-2 md:p-6 lg:p-4 md:mt-8 md:mb-6 lg:mt-6 lg:mb-4 md:grid md:grid-cols-3 md:gap-x-6 lg:gap-x-44 md:items-center rounded-lg">
           <span className="text-xs md:text-xl lg:text-base text-grey-normal">Profile picture</span>
           <div key={details.profile} style={{ ...(details.profile && { backgroundImage: `url(${details.profile})` }) }} onClick={() => inputRef.current.click()} className={`${details.profile ? "" : "bg-purple-light"} bg-cover bg-no-repeat w-2/4 h-32 md:w-full md:h-60 lg:h-40 rounded-2xl my-1 md:m-0 flex flex-col gap-y-2 items-center justify-center cursor-pointer`}>
-            <input type="file" className="p-0" accept="image/png, image/jpeg" ref={inputRef} hidden onChange={({ target: { files } }) => uploadToCloudinary(files[0])} />
+            <input type="file" className="p-0" accept="image/png, image/jpg" ref={inputRef} hidden onChange={async ({ target: { files } }) => files && (await singleFileUpload(files[0]))} />
             <img src={details.profile ? image_white_icon : image_purple_icon} className="w-6 md:w-10" alt="IMAGE PURPLE ICON" />
             <span className={`text-xs md:text-xl lg:text-base ${details.profile ? "text-white" : "text-purple-custom"}`}>+ Upload Image</span>
           </div>
